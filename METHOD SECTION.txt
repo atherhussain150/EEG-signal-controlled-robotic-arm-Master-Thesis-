@@ -1,0 +1,17 @@
+1. ANT Neuro - EEG data collection device
+2. using 64 electrodes
+3. Data is in MAT file, each MAT file is of 2 seconds. Initially we collect 20 second data which are then truncated to 6 seconds.
+   From those 6 seconds, we take from the 3rd second to 5th second for processing. Other than this data, we also use realtime data 
+   Which is of 2 seconds, which reflects real-life thought processing.
+4. Single participant for data collection, and data is being collected until the model achieves 80% accuracy.
+5. For error correction, we are using sparse categorical (labelled data with discrete states, i.e push, pull and nothing where states are identified as integers) cross-entrophy.
+   In categorical cross-entrophy, the states are objects, i.e. 'push', 'pull' and 'nothing'. And sparse categorical cross-entrophy is used with integer labelling. WE USE SPARSE CATEGORICAL CROSS-ENTROPHY.
+6. ADAM optimizer is being used for converging the model according to the error criteria (which is sparse categorical cross-entrophy).
+7. The number of interations our models takes to converge is 5 epochs. Labelling for classification is; no-movement: 0, movement: 1.
+8. We are using Convolution neural network (CNN), using 3 layers, without dense layer, 2 max pooling layers, 1 global average pooling layers.
+9. Input shape of data fed to the classifier: From the 2 sec MAT file, with 512 sampling freq, we get 1024 samples from the 2 second file. We take first 0 to 1000 samples from that and actually use every alternate samples from the 1000, down-sampling the data, making actual processed samples 500.
+   These 500 samples are used across all 64 channels.
+10. Data is normalized using scaling, by removing first 20 and last 20 percentile: gausian curve (bell curve) ,
+    we make the epoch to be 0 mean unit-variance, after removing the outliers. Diagram?
+11. We are not extracting any features, but feeding the pre-processed data to the model because since we are using CNN mode, the model is known to extract features automatically.
+12. Total data we have is 3600 MAT files, from which we use 70% we use for training and 30% for testing.
